@@ -1,0 +1,97 @@
+{
+  "entities": {
+    "Goal": {
+      "title": "Goal",
+      "description": "A long-term goal for hua (e.g., IPAS AI, TOEIC).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "progress": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "completed", "archived"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "status"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A micro-task (10-15 mins) associated with a goal or a standalone task.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "goalId": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["todo", "done"] },
+        "priority": { "type": "string", "enum": ["urgent", "easy", "normal"] },
+        "estimatedTime": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "status", "priority"]
+    },
+    "MemoryItem": {
+      "title": "MemoryItem",
+      "description": "A snippet of information, URL, or thought stored in the memory bank.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "content": { "type": "string" },
+        "url": { "type": "string" },
+        "summary": { "type": "string" },
+        "category": { "type": "string", "enum": ["daily", "learning", "project", "other"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "content", "category"]
+    },
+    "DailyLog": {
+      "title": "DailyLog",
+      "description": "A daily summary of achievements and feedback.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "achievements": { "type": "array", "items": { "type": "string" } },
+        "feedback": { "type": "string" },
+        "mood": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "date", "feedback"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "A message in the chat history between hua and the coach.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "model"] },
+        "text": { "type": "string" },
+        "image": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["role", "text", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/goals": {
+      "schema": "Goal",
+      "description": "Long-term goals for the user."
+    },
+    "/users/{userId}/tasks": {
+      "schema": "Task",
+      "description": "Micro-tasks for the user."
+    },
+    "/users/{userId}/memory": {
+      "schema": "MemoryItem",
+      "description": "Memory bank items for the user."
+    },
+    "/users/{userId}/dailyLogs": {
+      "schema": "DailyLog",
+      "description": "Daily progress logs and feedback."
+    },
+    "/users/{userId}/chat": {
+      "schema": "ChatMessage",
+      "description": "Chat history between hua and the coach."
+    }
+  }
+}
