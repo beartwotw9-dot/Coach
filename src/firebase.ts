@@ -4,7 +4,10 @@ import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, o
 import firebaseConfig from '../firebase-applet-config.json';
 
 // Initialize Firebase SDK
-const app = initializeApp(firebaseConfig);
+const app = initializeApp({
+  ...firebaseConfig,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY
+});
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
@@ -70,14 +73,14 @@ async function testConnection() {
   try {
     await getDocFromServer(doc(db, 'test', 'connection'));
   } catch (error) {
-    if(error instanceof Error && error.message.includes('the client is offline')) {
+    if (error instanceof Error && error.message.includes('the client is offline')) {
       console.error("Please check your Firebase configuration. ");
     }
   }
 }
 testConnection();
 
-export { 
-  collection, doc, setDoc, getDoc, getDocs, query, where, onSnapshot, addDoc, updateDoc, deleteDoc, Timestamp, onAuthStateChanged, orderBy 
+export {
+  collection, doc, setDoc, getDoc, getDocs, query, where, onSnapshot, addDoc, updateDoc, deleteDoc, Timestamp, onAuthStateChanged, orderBy
 };
 export type { User };

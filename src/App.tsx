@@ -316,7 +316,7 @@ function ChatView() {
         createdAt: new Date().toISOString()
       });
 
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY! });
 
       const contents = messages.map(m => ({
         role: m.role,
@@ -1005,8 +1005,8 @@ function HistoryView() {
                       </td>
                       <td className="px-8 py-5">
                         <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${task.priority === 'urgent' ? 'bg-red-100 text-red-600' :
-                            task.priority === 'easy' ? 'bg-blue-100 text-blue-600' :
-                              'bg-[#f5f5f0] text-[#5A5A40]'
+                          task.priority === 'easy' ? 'bg-blue-100 text-blue-600' :
+                            'bg-[#f5f5f0] text-[#5A5A40]'
                           }`}>
                           {task.priority || 'normal'}
                         </span>
