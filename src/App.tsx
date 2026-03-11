@@ -56,7 +56,7 @@ const ErrorBoundary: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           <pre className="bg-gray-50 p-4 rounded-lg text-xs overflow-auto max-h-40 mb-6">
             {errorInfo}
           </pre>
-          <button 
+          <button
             onClick={() => window.location.reload()}
             className="w-full py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors"
           >
@@ -87,10 +87,10 @@ export default function App() {
       providerData: [],
       refreshToken: '',
       tenantId: null,
-      delete: async () => {},
+      delete: async () => { },
       getIdToken: async () => '',
       getIdTokenResult: async () => ({} as any),
-      reload: async () => {},
+      reload: async () => { },
       toJSON: () => ({})
     } as any);
     setLoading(false);
@@ -136,7 +136,7 @@ function LoginScreen() {
   const { login } = useAuth();
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f5f5f0] p-4">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-md w-full bg-white rounded-[32px] shadow-2xl p-12 text-center border border-[#5A5A40]/10"
@@ -148,7 +148,7 @@ function LoginScreen() {
         <p className="text-[#5A5A40] italic mb-10 text-lg">
           Your personal PM & productivity partner.
         </p>
-        <button 
+        <button
           onClick={login}
           className="w-full py-4 bg-[#5A5A40] text-white rounded-full font-medium text-lg hover:bg-[#4a4a35] transition-all flex items-center justify-center gap-3 shadow-md active:scale-95"
         >
@@ -212,7 +212,7 @@ function MainApp() {
 
 function NavIcon({ active, onClick, icon, label, subLabel }: { active: boolean, onClick: () => void, icon: React.ReactNode, label?: string, subLabel?: string }) {
   return (
-    <button 
+    <button
       onClick={onClick}
       className={`group relative p-3 rounded-2xl transition-all duration-300 flex flex-col items-center gap-0.5 ${active ? 'bg-[#5A5A40] text-white shadow-lg' : 'text-[#5A5A40] hover:bg-[#5A5A40]/10'}`}
     >
@@ -317,7 +317,7 @@ function ChatView() {
       });
 
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
-      
+
       const contents = messages.map(m => ({
         role: m.role,
         parts: [
@@ -403,30 +403,10 @@ function ChatView() {
       ];
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents,
         config: {
-          systemInstruction: `You are a personal PM and productivity coach for "hua". 
-          Current Date and Time: ${dateStr} ${timeStr}.
-          Your personality is warm and supportive, but strict when tasks are delayed.
-          
-          CAPABILITIES:
-          - You can manage goals, tasks, and memory by calling the provided tools.
-          - When hua mentions a new goal, call addGoal.
-          - When hua wants to plan a task, call addTask.
-          - When hua says she finished something, call updateTaskStatus.
-          - When hua shares a link or a thought she wants to save, call addMemoryItem.
-          
-          Rules:
-          1. Always call her "hua".
-          2. Break down big goals into 10-15 min micro-tasks.
-          3. Be concise, use bullet points, and lots of whitespace.
-          4. If she seems to be procrastinating, be a "strict PM" and tell her to do just 5 minutes of work NOW.
-          5. Help her categorize URLs or thoughts into her Memory Bank.
-          6. Use positive reinforcement when she completes tasks.
-          7. IMAGE ANALYSIS: If hua uploads an image of a schedule, itinerary, or notes, automatically extract the key events and tasks. 
-             Format them as a clear, structured list of micro-tasks she can tackle.
-          8. LANGUAGE: Always respond in Traditional Chinese (繁體中文).`,
+          systemInstruction: `You are a personal PM and productivity coach for "hua". `,
           tools: [{ functionDeclarations: tools }]
         }
       });
@@ -504,7 +484,7 @@ function ChatView() {
 
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
         {messages.map((m, i) => (
-          <motion.div 
+          <motion.div
             key={i}
             initial={{ opacity: 0, x: m.role === 'user' ? 20 : -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -512,9 +492,9 @@ function ChatView() {
           >
             <div className={`max-w-[80%] p-5 rounded-[24px] ${m.role === 'user' ? 'bg-[#5A5A40] text-white rounded-tr-none' : 'bg-[#f5f5f0] text-[#1a1a1a] rounded-tl-none border border-[#5A5A40]/5'}`}>
               {m.image && (
-                <img 
-                  src={m.image} 
-                  alt="Uploaded content" 
+                <img
+                  src={m.image}
+                  alt="Uploaded content"
                   className="rounded-xl mb-3 max-h-60 object-cover border border-white/20"
                   referrerPolicy="no-referrer"
                 />
@@ -540,13 +520,13 @@ function ChatView() {
         <div className="max-w-4xl mx-auto space-y-4">
           {selectedImage && (
             <div className="relative inline-block">
-              <img 
-                src={selectedImage} 
-                alt="Preview" 
+              <img
+                src={selectedImage}
+                alt="Preview"
                 className="h-20 w-20 object-cover rounded-xl border-2 border-[#5A5A40]"
                 referrerPolicy="no-referrer"
               />
-              <button 
+              <button
                 onClick={() => setSelectedImage(null)}
                 className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg hover:bg-red-600 transition-colors"
               >
@@ -556,28 +536,28 @@ function ChatView() {
           )}
           <div className="flex gap-4">
             <div className="relative">
-              <input 
-                type="file" 
-                accept="image/*" 
+              <input
+                type="file"
+                accept="image/*"
                 onChange={handleImageUpload}
-                className="hidden" 
+                className="hidden"
                 id="image-upload"
               />
-              <label 
+              <label
                 htmlFor="image-upload"
                 className="w-14 h-14 bg-[#f5f5f0] text-[#5A5A40] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#e4e3e0] transition-all active:scale-95 border border-[#5A5A40]/10"
               >
                 <ImageIcon size={24} />
               </label>
             </div>
-            <input 
+            <input
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyPress={e => e.key === 'Enter' && sendMessage()}
               placeholder="跟教練聊聊吧，hua..."
               className="flex-1 bg-[#f5f5f0] border-none rounded-full px-6 py-4 focus:ring-2 focus:ring-[#5A5A40] transition-all outline-none"
             />
-            <button 
+            <button
               onClick={sendMessage}
               disabled={(!input.trim() && !selectedImage) || isTyping}
               className="w-14 h-14 bg-[#5A5A40] text-white rounded-full flex items-center justify-center shadow-lg hover:bg-[#4a4a35] transition-all disabled:opacity-50 active:scale-95"
@@ -629,7 +609,7 @@ function DashboardView() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Progress Card */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="md:col-span-2 bg-white rounded-[32px] p-8 shadow-sm border border-[#5A5A40]/5"
@@ -646,7 +626,7 @@ function DashboardView() {
                     <span className="text-[#5A5A40]">{goal.progress}%</span>
                   </div>
                   <div className="h-3 bg-[#f5f5f0] rounded-full overflow-hidden">
-                    <motion.div 
+                    <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${goal.progress}%` }}
                       className="h-full bg-[#5A5A40]"
@@ -663,7 +643,7 @@ function DashboardView() {
           </motion.div>
 
           {/* Task Distribution */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -702,7 +682,7 @@ function DashboardView() {
         </div>
 
         {/* Tomorrow's Focus */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -790,14 +770,14 @@ function TaskView() {
         </header>
 
         <div className="flex gap-4 mb-10">
-          <input 
+          <input
             value={newTask}
             onChange={e => setNewTask(e.target.value)}
             onKeyPress={e => e.key === 'Enter' && addTask()}
             placeholder="新增一個 10 分鐘的小任務..."
             className="flex-1 bg-[#f5f5f0] border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-[#5A5A40] outline-none"
           />
-          <button 
+          <button
             onClick={addTask}
             className="px-8 bg-[#5A5A40] text-white rounded-2xl font-bold hover:bg-[#4a4a35] transition-all flex items-center gap-2"
           >
@@ -808,13 +788,13 @@ function TaskView() {
 
         <div className="space-y-4">
           {tasks.sort((a, b) => a.status === 'todo' ? -1 : 1).map(task => (
-            <motion.div 
+            <motion.div
               layout
               key={task.id}
               className={`p-5 rounded-2xl border flex items-center justify-between transition-all ${task.status === 'done' ? 'bg-[#f5f5f0]/50 border-transparent opacity-60' : 'bg-white border-[#5A5A40]/10 shadow-sm'}`}
             >
               <div className="flex items-center gap-4">
-                <button 
+                <button
                   onClick={() => toggleTask(task)}
                   className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${task.status === 'done' ? 'bg-[#5A5A40] border-[#5A5A40]' : 'border-[#5A5A40]/30 hover:border-[#5A5A40]'}`}
                 >
@@ -824,7 +804,7 @@ function TaskView() {
                   {task.title}
                 </span>
               </div>
-              <button 
+              <button
                 onClick={() => deleteTask(task.id)}
                 className="p-2 text-[#5A5A40]/30 hover:text-red-500 transition-colors"
               >
@@ -884,14 +864,14 @@ function MemoryView() {
         </header>
 
         <div className="bg-white p-6 rounded-[32px] shadow-sm border border-[#5A5A40]/5 mb-10">
-          <textarea 
+          <textarea
             value={newItem}
             onChange={e => setNewItem(e.target.value)}
             placeholder="貼上連結或輸入想法..."
             className="w-full h-32 bg-[#f5f5f0] border-none rounded-2xl p-6 focus:ring-2 focus:ring-[#5A5A40] outline-none resize-none mb-4"
           />
           <div className="flex justify-end">
-            <button 
+            <button
               onClick={addMemory}
               className="px-8 py-3 bg-[#5A5A40] text-white rounded-full font-bold hover:bg-[#4a4a35] transition-all flex items-center gap-2"
             >
@@ -903,7 +883,7 @@ function MemoryView() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {items.map(item => (
-            <motion.div 
+            <motion.div
               layout
               key={item.id}
               className="bg-white p-6 rounded-[24px] shadow-sm border border-[#5A5A40]/5 flex flex-col justify-between group"
@@ -913,7 +893,7 @@ function MemoryView() {
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#5A5A40] bg-[#f5f5f0] px-3 py-1 rounded-full">
                     {item.category}
                   </span>
-                  <button 
+                  <button
                     onClick={() => deleteMemory(item.id)}
                     className="opacity-0 group-hover:opacity-100 p-2 text-red-400 hover:text-red-600 transition-all"
                   >
@@ -955,7 +935,7 @@ function HistoryView() {
 
   const exportPDF = () => {
     const doc = new jsPDF();
-    
+
     // Add title
     doc.setFontSize(20);
     doc.text("hua's Completed Tasks Archive", 14, 22);
@@ -992,7 +972,7 @@ function HistoryView() {
             <h2 className="text-5xl font-serif font-bold text-[#1a1a1a] mb-2 tracking-tight">Archive</h2>
             <p className="text-[#5A5A40] italic font-serif text-lg">回顧 hua 已完成的成就 — Reviewing completed achievements</p>
           </div>
-          <button 
+          <button
             onClick={exportPDF}
             disabled={completedTasks.length === 0}
             className="flex items-center gap-2 px-6 py-3 bg-[#5A5A40] text-white rounded-full font-bold hover:bg-[#4a4a35] transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1024,11 +1004,10 @@ function HistoryView() {
                         </div>
                       </td>
                       <td className="px-8 py-5">
-                        <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${
-                          task.priority === 'urgent' ? 'bg-red-100 text-red-600' : 
-                          task.priority === 'easy' ? 'bg-blue-100 text-blue-600' : 
-                          'bg-[#f5f5f0] text-[#5A5A40]'
-                        }`}>
+                        <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${task.priority === 'urgent' ? 'bg-red-100 text-red-600' :
+                            task.priority === 'easy' ? 'bg-blue-100 text-blue-600' :
+                              'bg-[#f5f5f0] text-[#5A5A40]'
+                          }`}>
                           {task.priority || 'normal'}
                         </span>
                       </td>
